@@ -1,7 +1,5 @@
 """
 新規アカウント追加（仕様 新規アカウント追加-1 〜 -17）
-
-Đặt tên test: test_register_XX (XX = 01..17). Chi tiết spec trong docstring từng test.
 """
 
 from __future__ import annotations
