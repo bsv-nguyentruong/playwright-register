@@ -6,9 +6,23 @@
 
 from __future__ import annotations
 
+from playwright.sync_api import Page
+
 import pytest
 
 from pages.register_page import RegisterPage
+
+
+def _assert_list_open_button_matches_spec_full_title(page: Page) -> None:
+    """
+    Spec: nút / vùng tương đương phải hiển thị đủ「新規アカウント追加」.
+    Thực tế Odakyu list: nút chỉ「新規追加」→ luôn FAIL cho đến khi UI khớp spec.
+    """
+    opening = page.locator(".account-management").locator(
+        "button.common-submit-btn.primary", has_text="新規"
+    ).first
+    assert opening.is_visible()
+    assert opening.inner_text().strip() == "新規アカウント追加"
 
 
 def _require_point_change(reg: RegisterPage) -> None:
@@ -19,9 +33,10 @@ def _require_point_change(reg: RegisterPage) -> None:
 def test_register_01(register_page):
     """
     ID testcase: 新規アカウント追加-1
-    Note: Xác nhận tiêu đề màn hình dialog đúng theo spec (「新規アカウント追加」).
+    Note: Case 1 chỉ kiểm tra text — so sánh nhãn nút mở form với spec「新規アカウント追加」
+    (thực tế「新規追加」→ FAIL cho đến khi UI đổi nhãn khớp spec).
     """
-    assert register_page.modal.get_by_text("新規アカウント追加").is_visible()
+    _assert_list_open_button_matches_spec_full_title(register_page.page)
 
 
 def test_register_02(register_page):
