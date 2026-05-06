@@ -16,6 +16,12 @@ def register_page(page):
     password = os.environ.get("ODAKYU_ADMIN_PASSWORD", "brave0404")
     OdakyuLoginPage(page).login(email, password, open_page=True, wait_leave_login=True)
     reg = RegisterPage(page)
+    # dismiss error modal if present
+    reg.dismiss_error_modal_if_present()
     reg.navigate_account_management()
+    # dismiss error modal if present
+    reg.dismiss_error_modal_if_present()
     reg.open_new_account_modal()
+    # dismiss error modal if present
+    reg.dismiss_error_modal_if_present()
     return reg

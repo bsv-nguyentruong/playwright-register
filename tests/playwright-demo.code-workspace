@@ -1,8 +1,15 @@
-{
-	"folders": [
-		{
-			"path": ".."
-		}
-	],
-	"settings": {}
-}
+// {
+// 	"folders": [
+// 		{
+// 			"path": ".."
+// 		}
+// 	],
+// 	"settings": {}
+// }
+
+///NNTT: Không cần thiết có file này do mục đích dùng để mở folder code không liên đến tests. 
+//Có 2 hướng đề xuất: 
+
+//1. Tiến hành xóa file này ra khỏi folder tests. 
+//2. Di chuyển file này lên folder cha [playwright-register] sau đó vào .gitignore để thêm file này
+//không nên đẩy file này lên repo

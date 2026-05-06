@@ -34,6 +34,9 @@ class OdakyuLoginPage(BasePage):
             "() => { const b = document.querySelector('button.login-button'); return b && !b.disabled; }",
             timeout=timeout_ms,
         )
+    
+    ###NNTT: khong cần thiết dùng javascript thuần đối với các hàm liên quan wait do playwright đã có hỗ trợ sẵn. 
+    # Có thể sử dụng: self.page.get_by_role("button", name="login").wait_for(state="enabled", timeout=timeout_ms)
 
     def click_login(self) -> None:
         self.wait_until_login_button_enabled()
@@ -61,7 +64,8 @@ class OdakyuLoginPage(BasePage):
             "() => !window.location.href.includes('/login')",
             timeout=timeout_ms,
         )
-
+    # NNTT: khong cần thiết dùng javascript thuần đối với các hàm liên quan wait do playwright đã có hỗ trợ sẵn. 
+    # Có thể sử dụng: self.page.wait_for_url(lambda url: "/login" not in url, timeout=timeout_ms)
     def toggle_password_visibility(self) -> None:
         self.click(self.password_toggle_icon)
 

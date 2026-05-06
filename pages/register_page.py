@@ -101,22 +101,36 @@ class RegisterPage(BasePage):
     # --- Trường form (get_by_label trong scope form) ---
 
     def fill_account_name(self, value: str) -> None:
-        self._form.get_by_label("アカウント名", exact=False).fill(value)
+        # self._form.get_by_label("アカウント名", exact=False).fill(value) 
+        self._form.locator("input[name='userName']").fill(value)
+    ###NNTT: get_by_label() bị lỗi vì nó đang tìm thẻ <label> có text "アカウント名" thì không có
+    #HTML chỗ này đang không có define giá trị nào để sử dụng user facing nên cần chuyển sang dùng XPATH, CSS
+    # chỗ này nên đổi thành: self._form.locator("input[name='userName']").fill(value)
 
     def get_account_name_value(self) -> str:
-        return self._form.get_by_label("アカウント名", exact=False).input_value()
+        # return self._form.get_by_label("アカウント名", exact=False).input_value()
+        return self._form.locator("input[name='userName']").input_value()
+        ### NNTT: get_by_label() tương tự trên lỗi ở fill_account_name
 
     def fill_email(self, value: str) -> None:
-        self._form.get_by_label("メールアドレス", exact=False).fill(value)
+        # self._form.get_by_label("メールアドレス", exact=False).fill(value)
+        self._form.locator("input[name='email']").fill(value)
+    ### NNTT: get_by_label() tương tự trên lỗi ở fill_account_name
 
     def get_email_value(self) -> str:
-        return self._form.get_by_label("メールアドレス", exact=False).input_value()
+        # return self._form.get_by_label("メールアドレス", exact=False).input_value()
+        return self._form.locator("input[name='email']").input_value()
+    ### NNTT: get_by_label() tương tự trên lỗi ở fill_account_name
 
     def fill_password(self, value: str) -> None:
-        self._form.get_by_label("パスワード", exact=False).fill(value)
+        # self._form.get_by_label("パスワード", exact=False).fill(value)
+        self._form.locator("input[name='password']").fill(value)
+    ### NNTT: get_by_label() tương tự trên lỗi ở fill_account_name
 
     def get_password_locator(self) -> Locator:
-        return self._form.get_by_label("パスワード", exact=False)
+        # return self._form.get_by_label("パスワード", exact=False)
+        return self._form.locator("input[name='password']")
+    ### NNTT: get_by_label() tương tự trên lỗi ở fill_account_name
 
     def toggle_password_visibility(self) -> None:
         self.get_password_locator().locator("+ img").click()
@@ -124,7 +138,14 @@ class RegisterPage(BasePage):
     # --- Block điểm (khi có trên build) ---
 
     def point_change_section(self) -> Locator:
-        return self._modal.get_by_text("チケット組成時のポイント付与パラメータの変更権限")
+        # return self._modal.get_by_text("チケット組成時のポイント付与パラメータの変更権限")
+        
+    ### NNTT: do get_by_text() trả về chính thẻ label-title chứa text đó, chỉ trả có mỗi text không trả nguyên component
+    #        nên get_by_text("有") sẽ bị lỗi do nằm trong sibling div ra ngoài scope → get_by_text("有") fail.
+    # Nên đổi lại thành: 
+        return self._modal.locator(".label-input").filter(
+            has_text="チケット組成時のポイント付与パラメータの変更権限"
+        )
 
     def has_point_change_section(self, timeout_ms: int = 2_000) -> bool:
         try:
